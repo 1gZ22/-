@@ -320,6 +320,119 @@
       transform: translateY(-4px);
       background: #4752c4;
     }
+    .guild-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.4rem 1.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: all 0.25s;
+    }
+    .guild-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--glow);
+    }
+    .guild-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .guild-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary);
+    }
+    .guild-details {
+      flex: 1;
+    }
+    .guild-name {
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+    .guild-id {
+      color: var(--text2);
+      font-size: 0.95rem;
+      margin-top: 0.3rem;
+    }
+    .guild-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+      gap: 1rem;
+    }
+    .premium-status {
+      font-weight: 600;
+      color: var(--text2);
+      padding: 0.5rem 1rem;
+      background: var(--surface2);
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+    .premium-active { color: #3ba55c; }
+    .premium-inactive { color: #ed4245; }
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      background: var(--primary);
+      color: white;
+    }
+    .stats-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      z-index: 10000;
+      box-shadow: var(--glow);
+      display: none;
+    }
+    .stats-modal.show { display: block; }
+    .stats-modal h3 {
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+    }
+    .stats-modal ul {
+      list-style: none;
+      display: grid;
+      gap: 1rem;
+    }
+    .stats-modal li {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.1rem;
+    }
+    .stats-modal li strong { color: var(--accent); }
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: var(--text2);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 9999;
+      display: none;
+    }
+    .overlay.show { display: block; }
   </style>
 </head>
 <body data-theme="dark">
@@ -341,6 +454,7 @@
       <img src="https://i.ibb.co/wZ6hvfG0/image.jpg" alt="Vantex Logo" class="hero-logo">
       <h1 data-ar>الأوراق القانونية – Vantex</h1>
       <h1 data-en style="display:none">Vantex • Legal & Privacy</h1>
+ 
       <p class="subtitle" data-ar>حماية • خصوصية • شفافية كاملة</p>
       <p class="subtitle" data-en style="display:none">Protection • Privacy • Full Transparency</p>
     </section>
@@ -453,16 +567,12 @@
       <img src="https://i.ibb.co/wZ6hvfG0/image.jpg" alt="User Avatar" class="user-avatar">
       <h2 id="user-name">جاري التحميل...</h2>
       <p style="color: var(--text2); margin: 1.5rem 0 3rem;" id="user-id">ID: ...</p>
-   
+    
       <div style="background: var(--surface2); border-radius: 16px; padding: 2.5rem; max-width: 800px; margin: 0 auto 3rem; border: 1px solid var(--border);">
         <h3 style="margin-bottom: 1.5rem; color: var(--accent);">الحالة الحالية</h3>
-        <p style="font-size: 1.15rem; line-height: 1.7; margin-bottom: 2rem; color: var(--text2);">
-          قسم إدارة السيرفرات والإعدادات العامة<br>
-          <strong>تحت التطوير</strong> وسيتم إضافته قريبًا إن شاء الله 🚧
-        </p>
         <div id="guilds-section">
           <h4 style="margin: 2rem 0 1.2rem; color: var(--primary);">السيرفرات المتاحة لك</h4>
-        
+         
           <div id="guilds-list" style="display: grid; gap: 1.2rem;">
             <div class="loading-text" style="text-align: center; color: var(--text2); padding: 2rem;">
               جاري تحميل السيرفرات...
@@ -470,80 +580,6 @@
           </div>
         </div>
       </div>
-
-      <!-- ──────────────────────────────────────────────── -->
-      <!--               الإضافة المطلوبة: قائمة الأوامر               -->
-      <!-- ──────────────────────────────────────────────── -->
-      <div style="background: var(--surface2); border-radius: 16px; padding: 2.5rem; max-width: 900px; margin: 3rem auto; border: 1px solid var(--border);">
-        <h3 style="margin-bottom: 1.5rem; color: var(--accent); text-align: center;">
-          <i class="fa-solid fa-list-ul"></i> قائمة الأوامر المتاحة (Commands List)
-        </h3>
-        
-        <p style="text-align: center; color: var(--text2); margin-bottom: 2rem;">
-          إليك نظرة سريعة على الأوامر الرئيسية • بعضها يحتاج بريميوم (🔒)
-        </p>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
-          
-          <div class="card" style="padding: 1.5rem;">
-            <h4 style="color: var(--primary); margin-bottom: 1rem;">أوامر عامة</h4>
-            <ul style="list-style: none; font-size: 0.95rem; line-height: 1.6;">
-              <li><strong>/help</strong> → عرض قائمة الأوامر</li>
-              <li><strong>/ping</strong> → سرعة البوت</li>
-              <li><strong>/bot</strong> → معلومات البوت + حالة البريميوم</li>
-              <li><strong>/invite</strong> → روابط الدعوة والدعم</li>
-              <li><strong>/avatar</strong> → صورة العضو</li>
-            </ul>
-          </div>
-
-          <div class="card" style="padding: 1.5rem;">
-            <h4 style="color: var(--primary); margin-bottom: 1rem;">إدارة الأعضاء</h4>
-            <ul style="list-style: none; font-size: 0.95rem; line-height: 1.6;">
-              <li><strong>/userinfo</strong> → معلومات العضو</li>
-              <li><strong>/ban @user</strong> → حظر</li>
-              <li><strong>/kick @user</strong> → طرد</li>
-              <li><strong>/timeout @user</strong> → كتم مؤقت</li>
-              <li><strong>/untimeout @user</strong> → إلغاء الكتم</li>
-              <li><strong>/warn @user</strong> → تحذير</li>
-              <li><strong>/warnings @user</strong> → عرض التحذيرات</li>
-            </ul>
-          </div>
-
-          <div class="card" style="padding: 1.5rem;">
-            <h4 style="color: var(--primary); margin-bottom: 1rem;">إدارة الرومات</h4>
-            <ul style="list-style: none; font-size: 0.95rem; line-height: 1.6;">
-              <li><strong>/clear عدد</strong> → مسح رسائل</li>
-              <li><strong>/lock</strong> → قفل الروم</li>
-              <li><strong>/unlock</strong> → فتح الروم</li>
-              <li><strong>/slowdown ثواني</strong> → وضع بطيء (🔒 بريميوم)</li>
-              <li><strong>/moveall</strong> → نقل الأعضاء صوتياً</li>
-            </ul>
-          </div>
-
-          <div class="card" style="padding: 1.5rem;">
-            <h4 style="color: var(--primary); margin-bottom: 1rem;">ميزات بريميوم (🔒)</h4>
-            <ul style="list-style: none; font-size: 0.95rem; line-height: 1.6;">
-              <li><strong>/say</strong> → إنشاء إمبد احترافي</li>
-              <li><strong>/anti-spam on/off</strong> → حماية السبام</li>
-              <li><strong>/add_blacklist @user</strong> → إضافة للقائمة السوداء</li>
-              <li><strong>/remove_blacklist userid</strong> → إزالة من القائمة السوداء</li>
-              <li><strong>/set_autorole @role</strong> → رتبة تلقائية للجدد</li>
-            </ul>
-          </div>
-
-          <div class="card" style="padding: 1.5rem; grid-column: 1 / -1; text-align: center;">
-            <p style="margin: 1rem 0; color: var(--text2);">
-              للمزيد من التفاصيل استخدم <strong>/help</strong> داخل السيرفر
-            </p>
-            <a href="https://discord.gg/9bGhBVCqCf" target="_blank" class="btn btn-primary" style="font-size: 1rem; padding: 0.8rem 1.8rem;">
-              <i class="fa-solid fa-headset"></i> سيرفر الدعم للاستفسارات
-            </a>
-          </div>
-
-        </div>
-      </div>
-      <!-- نهاية الإضافة -->
-
       <button id="logout-btn" class="btn btn-danger" style="font-size: 1.1rem; padding: 1rem 2.5rem;">
         <i class="fa-solid fa-right-from-bracket"></i> تسجيل الخروج
       </button>
@@ -555,6 +591,12 @@
     </div>
   </div>
 </main>
+<div id="overlay" class="overlay" onclick="closeStatsModal()"></div>
+<div id="stats-modal" class="stats-modal">
+  <button class="close-modal" onclick="closeStatsModal()"><i class="fa-solid fa-times"></i></button>
+  <h3>إحصائيات السيرفر</h3>
+  <ul id="stats-list"></ul>
+</div>
 <footer>
   <p data-ar>© 2025–2026 فريق Dara3 • بواسطة Embaby (1gZ)</p>
   <p data-en style="display:none">© 2025–2026 Dara3 Team • By Embaby (1gZ)</p>
@@ -661,7 +703,7 @@ window.onload = () => {
     let accessToken = fragment.get('access_token') || localStorage.getItem('discord_access_token');
     if (accessToken) {
         localStorage.setItem('discord_access_token', accessToken);
-  
+   
         // تبديل الواجهة
         legalContent.classList.add('hidden');
         dashboardContent.classList.remove('hidden');
@@ -702,48 +744,67 @@ window.onload = () => {
                 return;
             }
             manageableGuilds.forEach(guild => {
-                const isBotInGuild = guild.features?.includes('BOT') || false;
                 const card = document.createElement('div');
-                card.style.cssText = `
-                    background: var(--surface);
-                    border: 1px solid var(--border);
-                    border-radius: 12px;
-                    padding: 1.2rem 1.5rem;
-                    display: flex;
-                    align-items: center;
-                    gap: 1rem;
-                    transition: all 0.2s;
-                `;
+                card.classList.add('guild-card');
                 card.innerHTML = `
-                    <img src="${guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=64` : 'https://discord.com/assets/dd4dbc0016779df1378e7812eabaa04d.png'}"
-                         style="width:48px; height:48px; border-radius:50%; object-fit:cover;" alt="${guild.name}">
-                    <div style="flex:1;">
-                        <div style="font-weight:600; font-size:1.1rem;">${guild.name}</div>
-                        <div style="color:var(--text2); font-size:0.9rem;">
-                            ${guild.owner ? 'مالك السيرفر' : 'لديك صلاحيات إدارية'}
+                    <div class="guild-info">
+                        <img src="${guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=64` : 'https://discord.com/assets/dd4dbc0016779df1378e7812eabaa04d.png'}"
+                             class="guild-icon" alt="${guild.name}">
+                        <div class="guild-details">
+                            <div class="guild-name">${guild.name}</div>
+                            <div class="guild-id">ID: ${guild.id}</div>
                         </div>
                     </div>
-                    <div>
-                        ${isBotInGuild
-                            ? `<a href="#server-${guild.id}" class="btn btn-primary" style="padding:0.7rem 1.3rem; font-size:0.95rem;">
-                                 <i class="fa-solid fa-cog"></i> التحكم
-                               </a>`
-                            : `<a href="https://discord.com/oauth2/authorize?client_id=1423325443393589290&permissions=8&scope=bot&guild_id=${guild.id}&disable_guild_select=true"
-                                 target="_blank" class="btn btn-success" style="padding:0.7rem 1.3rem; font-size:0.95rem;">
-                                 <i class="fa-brands fa-discord"></i> إضافة البوت
-                               </a>`
-                        }
+                    <div class="guild-buttons">
+                        <div id="premium-status-${guild.id}" class="premium-status">جاري التحميل...</div>
+                        <div style="display: flex; gap: 0.8rem;">
+                            <button class="btn btn-secondary stats-btn" data-guild-id="${guild.id}" style="padding:0.8rem 1.5rem; font-size:1rem;">
+                                <i class="fa-solid fa-chart-bar"></i> ستاتس
+                            </button>
+                            <a href="https://1gz22.github.io/Vantex-Bot-website/dashboard.html?guild=${guild.id}" 
+                               class="btn btn-primary" style="padding:0.8rem 1.5rem; font-size:1rem;">
+                                <i class="fa-solid fa-cog"></i> لوحة التحكم
+                            </a>
+                            <a href="https://discord.com/oauth2/authorize?client_id=1423325443393589290&permissions=8&scope=bot&guild_id=${guild.id}&disable_guild_select=true"
+                               target="_blank" class="btn btn-success" style="padding:0.8rem 1.5rem; font-size:1rem; display: none;" id="add-bot-btn-${guild.id}">
+                                <i class="fa-brands fa-discord"></i> إضافة البوت
+                            </a>
+                        </div>
                     </div>
                 `;
-                card.addEventListener('mouseenter', () => {
-                    card.style.transform = 'translateY(-3px)';
-                    card.style.boxShadow = 'var(--glow)';
-                });
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'translateY(0)';
-                    card.style.boxShadow = 'none';
-                });
                 guildsList.appendChild(card);
+
+                // جلب حالة البريميوم (افترض API خارجي)
+                fetch(`https://your-api-domain.com/api/premium?guild_id=${guild.id}`)
+                  .then(res => res.json())
+                  .then(data => {
+                    const statusDiv = document.getElementById(`premium-status-${guild.id}`);
+                    statusDiv.textContent = data.premium ? 'بريميوم مفعل' : 'بريميوم غير مفعل';
+                    statusDiv.classList.add(data.premium ? 'premium-active' : 'premium-inactive');
+                  })
+                  .catch(() => {
+                    const statusDiv = document.getElementById(`premium-status-${guild.id}`);
+                    statusDiv.textContent = 'خطأ في التحميل';
+                    statusDiv.classList.add('premium-inactive');
+                  });
+
+                // التحقق إذا كان البوت مضاف (افترض API خارجي للتحقق)
+                fetch(`https://your-api-domain.com/api/is_bot_in_guild?guild_id=${guild.id}`)
+                  .then(res => res.json())
+                  .then(data => {
+                    const addBotBtn = document.getElementById(`add-bot-btn-${guild.id}`);
+                    const dashboardBtn = card.querySelector('.btn-primary');
+                    if (!data.is_in_guild) {
+                      addBotBtn.style.display = 'inline-flex';
+                      dashboardBtn.style.display = 'none';
+                    }
+                  })
+                  .catch(() => {});
+            });
+
+            // إضافة حدث لأزرار الستاتس
+            document.querySelectorAll('.stats-btn').forEach(btn => {
+              btn.addEventListener('click', () => showGuildStats(btn.dataset.guildId, accessToken));
             });
         })
         .catch(err => {
@@ -755,6 +816,56 @@ window.onload = () => {
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 };
+
+// دالة عرض إحصائيات السيرفر
+function showGuildStats(guildId, accessToken) {
+  const modal = document.getElementById('stats-modal');
+  const statsList = document.getElementById('stats-list');
+  const overlay = document.getElementById('overlay');
+  statsList.innerHTML = '<li>جاري التحميل...</li>';
+  modal.classList.add('show');
+  overlay.classList.add('show');
+
+  // جلب معلومات السيرفر من Discord API
+  fetch(`https://discord.com/api/guilds/${guildId}`, {
+    headers: { authorization: `Bearer ${accessToken}` }
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('Failed to fetch guild details');
+    return res.json();
+  })
+  .then(guild => {
+    // جلب عدد الأوامر من API خاص بالبوت (افترض)
+    return fetch(`https://your-api-domain.com/api/commands_count?guild_id=${guildId}`)
+      .then(res => res.json())
+      .then(commandsData => ({ guild, commandsCount: commandsData.count || 0 }));
+  })
+  .then(({ guild, commandsCount }) => {
+    const createdAt = new Date(guild.created_at).toLocaleDateString('ar-EG');
+    statsList.innerHTML = `
+      <li>تاريخ الإنشاء: <strong>${createdAt}</strong></li>
+      <li>عدد الأعضاء: <strong>${guild.approximate_member_count || guild.member_count || 'غير متوفر'}</strong></li>
+      <li>عدد الرولات: <strong>${guild.roles.length}</strong></li>
+      <li>عدد الرومات: <strong>${guild.channels ? guild.channels.length : 'غير متوفر'}</strong></li>
+      <li>عدد الأوامر: <strong>${commandsCount}</strong></li>
+      <li>وصف السيرفر: <strong>${guild.description || 'لا يوجد وصف'}</strong></li>
+      <li>مستوى التحقق: <strong>${guild.verification_level}</strong></li>
+    `;
+  })
+  .catch(err => {
+    console.error(err);
+    statsList.innerHTML = '<li style="color:#ed4245;">حدث خطأ أثناء جلب الإحصائيات.</li>';
+  });
+}
+
+// إغلاق المودال
+function closeStatsModal() {
+  const modal = document.getElementById('stats-modal');
+  const overlay = document.getElementById('overlay');
+  modal.classList.remove('show');
+  overlay.classList.remove('show');
+}
+
 if (navigator.language.startsWith('en')) toggleLang();
 </script>
 </body>
