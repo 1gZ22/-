@@ -778,7 +778,7 @@ window.onload = () => {
                 fetch(`https://your-api-domain.com/api/premium?guild_id=${guild.id}`)
                   .then(res => res.json())
                   .then(data => {
-                    const statusDiv = document.getElementById(`premium-status-${guild.id}`);
+                    const statusDiv = document.getElementById(`premium-status-${MTQyMzMyNTQ0MzM5MzU4OTI5MA.G_2TWk.pmmNULwsOt21tkzp0mhBgZ6UqUP4dmFu_Njnss}`);
                     statusDiv.textContent = data.premium ? 'بريميوم مفعل' : 'بريميوم غير مفعل';
                     statusDiv.classList.add(data.premium ? 'premium-active' : 'premium-inactive');
                   })
